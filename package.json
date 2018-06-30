@@ -1,0 +1,45 @@
+{
+  "name": "koa-mock-restful",
+  "version": "1.0.0",
+  "description": "koa mock middleware for resftful",
+  "keywords": [
+    "mock",
+    "koa",
+    "middleware",
+    "resftful"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint index.js",
+    "test": "mocha  --check-leaks --bail --exit --reporter spec test/"
+  },
+  "files": [
+    "index.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xuxihai123/koa-mock-restful.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xuxihai123/koa-mock-restful/issues"
+  },
+  "homepage": "https://github.com/xuxihai123/koa-mock-restful#readme",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "debug": "^3.1.0",
+    "path-to-regexp": "^2.2.1"
+  },
+  "devDependencies": {
+    "eslint": "3.19.0",
+    "istanbul": "0.4.5",
+    "koa": "^2.5.1",
+    "koa-body": "^4.0.4",
+    "mocha": "5.2.0",
+    "supertest": "3.1.0"
+  },
+  "engines": {
+    "node": ">=7.6"
+  }
+}
