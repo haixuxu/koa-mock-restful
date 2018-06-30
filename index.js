@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const bodyParser = require('body-parser');
 const pathToRegexp = require('path-to-regexp');
 const chalk = require('chalk');
 const parse = require('url').parse;
