@@ -1,7 +1,7 @@
-express-mock-restful
+koa-mock-restful
 ---
 
-express-mock is a express  middleware that creates mocks for REST APIs. It will be helpful when you try to test your application without the actual REST API server.
+koa-mock-restful is a koa  middleware that creates mocks for REST APIs. It will be helpful when you try to test your application without the actual REST API server.
 
 **Features:**  
 
@@ -11,56 +11,60 @@ express-mock is a express  middleware that creates mocks for REST APIs. It will 
 ## Installation
 
 ```bash
-npm install express-mock-restful --save-dev
+npm install koa-mock-restful --save-dev
 ```
 
 ## Usage
 
-express-mock-restful dev support mock, configured in `mocker.js`.
+koa-mock-restful dev support mock, configured in `mocker.js`.
 
 ```js
 const mockMap = {
   'GET /api/user': {
-    id: 1,
-    username: 'kenny',
-    sex: 6
-  },
-  'GET /api/user/list': [
-    {
-      id: 1,
-      username: 'kenny',
-      sex: 6
-    }, {
-      id: 2,
-      username: 'kenny',
-      sex: 6
-    }
-  ],
-  'POST /api/login/account': (req, res) => {
-    const { password, username } = req.body;
-    if (password === '888888' && username === 'admin') {
-      return res.json({
-        status: 'ok',
-        code: 0,
-        token: "sdfsdfsdfdsf",
-        data: {
-          id: 1,
-          username: 'kenny',
-          sex: 6
-        }
-      });
-    } else {
-      return res.json({
-        status: 'error',
-        code: 403
-      });
-    }
-  },
-  'DELETE /api/user/:id': (req, res) => {
-    console.log('---->', req.body)
-    console.log('---->', req.params.id)
-    res.send({ status: 'ok', message: '删除成功！' });
-  }
+      username: 'admin',
+      sex: 5,
+    },
+    'GET /repos/hello': (ctx, next) => {
+      ctx.body = {
+        text: 'this is from mock server',
+      };
+    },
+    'GET /api/userinfo/:id': (ctx, next) => {
+      ctx.body = {
+        id: ctx.params.id,
+        username: 'kenny',
+      };
+    },
+    'GET /api/user/list/:id/:type': (ctx, next) => {
+      ctx.body = {
+        id: ctx.params.id,
+        type: ctx.params.type,
+      };
+    },
+  
+    'POST /api/login/account': (ctx, next) => {
+      const {password, username} = ctx.request.body;
+      if (password === '888888' && username === 'admin') {
+        ctx.body =  {
+          status: 'ok',
+          code: 0,
+          token: 'sdfsdfsdfdsf',
+          data: {
+            id: 1,
+            username: 'kenny',
+            sex: 6,
+          },
+        };
+      } else {
+        ctx.body = {
+          status: 'error',
+          code: 403,
+        };
+      }
+    },
+    'DELETE /api/user/:id': (ctx, next) => {
+      ctx.body = {status: 'ok', message: '删除成功！', id: ctx.params.id};
+    },
 }
 module.exports = mockMap;
 ```
@@ -71,74 +75,15 @@ module.exports = mockMap;
 apiMocker({entry:'./mocker.js',debug:true})
 ```
 
-## Using with [Express](https://github.com/expressjs/express)
+## Using with [koa](https://github.com/koajs/koa)
 
 ```diff
 const path = require('path');
-const express = require('express');
-+ const apiMocker = require('express-mock-restful');
+const koa = require('koa');
++ const apiMocker = require('koa-mock-restful');
 
-const app = express();
+const app = koa();
 
 + app.use(apiMocker({entry:'./mocker/index.js',debug:true});
 app.listen(8080);
-```
-
-## Using with [Webpack](https://github.com/webpack/webpack)
-
-To use api mocker on your [Webpack](https://github.com/webpack/webpack) projects, simply add a setup options to your [webpack-dev-server](https://github.com/webpack/webpack-dev-server) options:
-
-Change your config file to tell the dev server where to look for files: `webpack.config.js`.
-
-```diff
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-+ const apiMocker = require('express-mock-restful');
-
-module.exports = {
-  entry: {
-    app: './src/index.js',
-    print: './src/print.js'
-  },
-  devtool: 'inline-source-map',
-+ devServer: {
-+   ...
-+   before(app){
-+     app.use(apiMocker({entry:'./mocker/index.js',debug:true});
-+   }
-+ },
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Development'
-    })
-  ],
-  output: {
-    filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist')
-  }
-};
-```
-
-Must have a file suffix! For example: `./mocker.js`.
-
-Let's add a script to easily run the dev server as well: `package.json`
-
-```diff
-  {
-    "name": "development",
-    "version": "1.0.0",
-    "description": "",
-    "main": "webpack.config.js",
-    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-+     "start": "webpack-dev-server --open",
-      "build": "webpack"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "MIT",
-    "devDependencies": {
-      ....
-    }
-  }
 ```
