@@ -1,6 +1,6 @@
 {
   "name": "koa-mock-restful",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "koa mock middleware for resftful",
   "keywords": [
     "mock",
