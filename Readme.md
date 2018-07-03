@@ -1,6 +1,8 @@
 koa-mock-restful
 ---
 
+[![Build Status](https://travis-ci.org/xuxihai123/koa-mock-restful.svg?branch=master)](https://travis-ci.org/xuxihai123/koa-mock-restful)
+
 koa-mock-restful is a koa  middleware that creates mocks for REST APIs. It will be helpful when you try to test your application without the actual REST API server.
 
 **Features:**  

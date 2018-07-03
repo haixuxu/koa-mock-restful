@@ -3,6 +3,21 @@ module.exports = {
     username: 'admin',
     sex: 5,
   },
+  'GET /api/list': function(ctx, next) {
+    let query = ctx.query || {};
+    ctx.body = {
+      limit: query.limit,
+      offset: query.offset,
+      list: [
+        {
+          username: 'admin1',
+          sex: 1,
+        }, {
+          username: 'admin2',
+          sex: 0,
+        }],
+    };
+  },
   'GET /repos/hello': (ctx, next) => {
     ctx.body = {
       text: 'this is from mock server',
@@ -24,7 +39,7 @@ module.exports = {
   'POST /api/login/account': (ctx, next) => {
     const {password, username} = ctx.request.body;
     if (password === '888888' && username === 'admin') {
-      ctx.body =  {
+      ctx.body = {
         status: 'ok',
         code: 0,
         token: 'sdfsdfsdfdsf',
