@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "chokidar": "^3.4.2",
-    "eslint": "3.19.0",
+    "eslint": "7.9.0",
     "istanbul": "0.4.5",
     "koa": "^2.5.1",
     "koa-body": "^4.0.4",
