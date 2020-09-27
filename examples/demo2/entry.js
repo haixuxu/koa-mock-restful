@@ -3,9 +3,9 @@ module.exports = {
     username: 'admin',
     sex: 5,
   },
-  'GET /api/list': function (req, res) {
-    let query = req.query || {};
-    return res.json({
+  'GET /api/list': function(ctx, next) {
+    let query = ctx.query || {};
+    ctx.body = {
       limit: query.limit,
       offset: query.offset,
       list: [
@@ -18,30 +18,30 @@ module.exports = {
           sex: 0,
         },
       ],
-    });
+    };
   },
-  'GET /repos/hello': (req, res) => {
-    return res.json({
+  'GET /repos/hello': (ctx, next) => {
+    ctx.body = {
       text: 'this is from mock server',
-    });
+    };
   },
-  'GET /api/userinfo/:id': (req, res) => {
-    return res.json({
-      id: req.params.id,
+  'GET /api/userinfo/:id': (ctx, next) => {
+    ctx.body = {
+      id: ctx.params.id,
       username: 'kenny',
-    });
+    };
   },
-  'GET /api/user/list/:id/:type': (req, res) => {
-    return res.json({
-      id: req.params.id,
-      type: req.params.type,
-    });
+  'GET /api/user/list/:id/:type': (ctx, next) => {
+    ctx.body = {
+      id: ctx.params.id,
+      type: ctx.params.type,
+    };
   },
 
-  'POST /api/login/account': (req, res) => {
-    const { password, username } = req.body;
+  'POST /api/login/account': (ctx, next) => {
+    const { password, username } = ctx.request.body;
     if (password === '888888' && username === 'admin') {
-      return res.json({
+      ctx.body = {
         status: 'ok',
         code: 0,
         token: 'sdfsdfsdfdsf',
@@ -50,15 +50,15 @@ module.exports = {
           username: 'kenny',
           sex: 6,
         },
-      });
+      };
     } else {
-      return res.json({
+      ctx.body = {
         status: 'error',
         code: 403,
-      });
+      };
     }
   },
-  'DELETE /api/user/:id': (req, res) => {
-    res.send({ status: 'ok', message: '删除成功！' });
+  'DELETE /api/user/:id': (ctx, next) => {
+    ctx.body = { status: 'ok', message: '删除成功！', id: ctx.params.id };
   },
 };
